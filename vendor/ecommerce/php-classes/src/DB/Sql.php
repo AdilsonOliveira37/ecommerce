@@ -5,8 +5,8 @@ namespace Ecommerce\DB;
 class Sql
 {
     const HOSTNAME = "localhost";
-    const USERNAME = "laravel";
-    const PASSWORD = "Universo@123";
+    const USERNAME = "root";
+    const PASSWORD = "";
     const DBNAME = "db_ecommerce";
 
     private $conn;
