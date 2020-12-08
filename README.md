@@ -1,5 +1,5 @@
 # Projeto E-commerce
-## O projeto ainda está em desenvolvimento!
+### O projeto ainda está em desenvolvimento
 <img src="https://res.cloudinary.com/oli37/image/upload/v1607449326/Git/E-commerce/ecommerce_2_jsv6qs.png" height=193 width=261>
 <img src="https://res.cloudinary.com/oli37/image/upload/v1607449327/Git/E-commerce/ecommerce_1_vipfmu.png" height=193 width=261>
 <hr>
