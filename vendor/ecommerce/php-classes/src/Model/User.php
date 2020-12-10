@@ -9,6 +9,7 @@ class User extends Model
 {
 
     const SESSION = "User";
+    const SECRET = "ecommerce_secret";
 
     public static function login($login, $password)
     {
@@ -99,6 +100,44 @@ class User extends Model
         ));
 
         $this->setData($results[0]);
+
+    }
+
+    public static function getForgot($email)
+    {
+        $sql = new Sql();
+
+        $results = $sql->select("
+            SELECT * 
+            FROM tb_persons a
+            INNER JOIN b_users b USING (idperson)
+            WHERE a.desemail = :email
+        ", array(
+            ":email"=> $email
+        ));
+
+        if(count($results) === 0)
+        {
+            throw new \Exception("Não foi possivel recuperar sua senha.");
+        }else
+        {
+            $data = $results[0];
+            $results2 = $sql->select("CALL sp_usepasswodsrecoveries_create(:iduser, :desip)", array(
+                ":iduser"=>$data["iduser"],
+                ":desip"=>$_SERVER["REMOTE_ADDR"]
+            ));
+
+            if(count($results2) === 0)
+            {
+                throw new \Exception("Não foi possivel recuperar a senha.");
+            }
+            else{
+                $dataRecovery = $results2[0];
+                $code = base64_encode(openssl_encrypt(MCRYPT_RIJNDAEL_256, User::SECRET, $dataRecovery["idrecovery"], MCRYPT_MODE_CBC));
+                $link = "http://www.ecommerce.com.br/admin/forgot/reset?code=$code";
+            }
+        
+        }
 
     }
 

@@ -13,7 +13,7 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="/res/admin/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="/res/admin/dist/css/AdminLTE.css">
   <!-- iCheck -->
   <link rel="stylesheet" href="/res/admin/plugins/iCheck/square/blue.css">
 
@@ -27,7 +27,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="/res/admin/index2.html"><b>Admin</b>LTE</a>
+    <a href="/res/admin/index2.html"><b>E-commerce</b>₢</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -67,7 +67,7 @@
     </div>
     <!-- /.social-auth-links -->
 
-    <a href="#">I forgot my password</a><br>
+    <a href="/admin/forgot">Eu esqueci minha senha.</a><br>
     <a href="register.html" class="text-center">Register a new membership</a>
 
   </div>

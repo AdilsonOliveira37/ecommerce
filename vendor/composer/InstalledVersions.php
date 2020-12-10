@@ -1,5 +1,15 @@
 <?php
 
+
+
+
+
+
+
+
+
+
+
 namespace Composer;
 
 use Composer\Semver\VersionParser;
@@ -19,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '58dfecc9361196a36c5c2594d81bf688638f9757',
+    'reference' => '5e8a88c9dc11e0f7775cbf5c9add1de21a2ba552',
     'name' => 'php/ecommerce',
   ),
   'versions' => 
@@ -31,16 +41,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '58dfecc9361196a36c5c2594d81bf688638f9757',
+      'reference' => '5e8a88c9dc11e0f7775cbf5c9add1de21a2ba552',
     ),
     'phpmailer/phpmailer' => 
     array (
-      'pretty_version' => 'v5.2.22',
-      'version' => '5.2.22.0',
+      'pretty_version' => 'v6.2.0',
+      'version' => '6.2.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'b18cb98131bd83103ccb26a888fdfe3177b8a663',
+      'reference' => 'e38888a75c070304ca5514197d4847a59a5c853f',
     ),
     'rain/raintpl' => 
     array (
