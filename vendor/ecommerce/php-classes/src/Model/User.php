@@ -4,12 +4,14 @@ namespace Ecommerce\Model;
 
 use \Ecommerce\DB\Sql;
 use \Ecommerce\Model;
+use \Ecommerce\Mailer;
 
 class User extends Model
 {
 
     const SESSION = "User";
     const SECRET = "ecommerce_secret";
+    const SECRET_IV = "ecommerce_secret_IV";
 
     public static function login($login, $password)
     {
@@ -110,7 +112,7 @@ class User extends Model
         $results = $sql->select("
             SELECT * 
             FROM tb_persons a
-            INNER JOIN b_users b USING (idperson)
+            INNER JOIN tb_users b USING (idperson)
             WHERE a.desemail = :email
         ", array(
             ":email"=> $email
@@ -122,7 +124,7 @@ class User extends Model
         }else
         {
             $data = $results[0];
-            $results2 = $sql->select("CALL sp_usepasswodsrecoveries_create(:iduser, :desip)", array(
+            $results2 = $sql->select("CALL sp_userspasswordsrecoveries_create(:iduser, :desip)", array(
                 ":iduser"=>$data["iduser"],
                 ":desip"=>$_SERVER["REMOTE_ADDR"]
             ));
@@ -132,11 +134,57 @@ class User extends Model
                 throw new \Exception("Não foi possivel recuperar a senha.");
             }
             else{
+                // Criptoografa o link que sera enviado ao usuario por email
                 $dataRecovery = $results2[0];
-                $code = base64_encode(openssl_encrypt(MCRYPT_RIJNDAEL_256, User::SECRET, $dataRecovery["idrecovery"], MCRYPT_MODE_CBC));
+                $code = openssl_encrypt($dataRecovery['idrecovery'], 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_IV));
+                $code = base64_encode($code);
+
                 $link = "http://www.ecommerce.com.br/admin/forgot/reset?code=$code";
+
+                $mailer = new \Ecommerce\Mailer($data["desemail"], $data["desperson"], "Redefini Senha do Ecommerce Store", "forgot", array(
+                    "name" => $data["desperson"],
+                    "link" => $link
+                ));
+
+                $mailer->send();
+
+                return $data;
             }
         
+        }
+
+    }
+
+    public static function validForgotDecrypt($code)
+    {
+        // Descriptografa o link que o usuario utilizou
+        $code = base64_decode($code);
+        $idrecovery = openssl_decrypt($code, 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_IV));
+        
+        $sql = new Sql();
+
+        $results = $sql->select("
+        SELECT *
+        FROM tb_userspasswordsrecoveries a
+        INNER JOIN tb_users b USING(iduser)
+        INNER JOIN tb_persons c USING(idperson)
+        WHERE
+            a.idrecovery = :idrecovery
+            AND
+            a.dtrecovery IS NULL
+            AND
+            DATE_ADD(a.dtregister, INTERVAL 1 HOUR) >= NOW()",
+            array(
+                ":idrecovery" => $idrecovery
+            ));
+
+        if(count($results) === 0)
+        {
+            throw new \Exception("Não foi possível recuperar a senha.");
+        }
+        else
+        {
+            return $results[0];
         }
 
     }
