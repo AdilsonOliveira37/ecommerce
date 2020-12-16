@@ -1,0 +1,29 @@
+version: "3.7" 
+services:
+  php:
+    build:
+      context: .
+    image: phpdocker
+    container_name: php
+    ports:
+      - "9000:9000"
+    volumes:
+      - ".:/var/www/html/" 
+    networks: 
+      - app-network
+    command: php -S 0.0.0.0:9000 -t .
+
+  mysql-app:
+    image: mysql:5.7.22
+    ports:
+      - "3306:3306"
+    volumes: 
+      - .docker/dbdata:/var/lib/mysql
+    environment: 
+      MYSQL_DATABASE: root
+      MYSQL_ROOT_PASSWORD: 123456
+    networks: 
+      - app-network
+networks: 
+  app-network:
+    driver: bridge

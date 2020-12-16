@@ -139,7 +139,7 @@ class User extends Model
                 $code = openssl_encrypt($dataRecovery['idrecovery'], 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_IV));
                 $code = base64_encode($code);
 
-                $link = "http://www.ecommerce.com.br/admin/forgot/reset?code=$code";
+                $link = "http://www.ecommerce.com.br:9000/admin/forgot/reset?code=$code";
 
                 $mailer = new \Ecommerce\Mailer($data["desemail"], $data["desperson"], "Redefini Senha do Ecommerce Store", "forgot", array(
                     "name" => $data["desperson"],
@@ -173,7 +173,7 @@ class User extends Model
             AND
             a.dtrecovery IS NULL
             AND
-            DATE_ADD(a.dtregister, INTERVAL 1 HOUR) >= NOW()",
+            DATE_ADD(a.dtregister, INTERVAL 1 HOUR) >= NOW();",
             array(
                 ":idrecovery" => $idrecovery
             ));
@@ -187,6 +187,24 @@ class User extends Model
             return $results[0];
         }
 
+    }
+
+    public static function setForgotUsed($idrecovery)
+    {
+        $sql = new Sql();
+
+        $sql->query("UPDATE tb_userspasswordsrecoveries SET dtrecovery = NOW() WHERE idrecovery = :idrecovery", array(
+            ":idrecovery" => $idrecovery
+        ));
+    }
+
+    public function setPassword($password)
+    {
+        $sql = new Sql();
+        $sql->query("UPDATE tb_users SET despassword = :password WHERE iduser = :iduser", array(
+            ":password" => $password,
+            ":iduser" => $this->getiduser()
+        ));
     }
 
 }
