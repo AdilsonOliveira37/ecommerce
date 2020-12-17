@@ -4,7 +4,6 @@ namespace Ecommerce\Model;
 
 use \Ecommerce\DB\Sql;
 use \Ecommerce\Model;
-use \Ecommerce\Mailer;
 
 class Category extends Model
 {
@@ -21,7 +20,7 @@ class Category extends Model
         $sql = new Sql();
 
         $results = $sql->select("CALL sp_categories_save(:idcategory, :descategory)", array(
-            ":idcategory" => $this->getcategory(),
+            ":idcategory" => $this->getidcategory(),
             ":descategory"=> $this->getdescategory() 
         ));
 
@@ -47,6 +46,16 @@ class Category extends Model
         $sql->query("DELETE FROM tb_categories WHERE idcategory = :idcategory", array(
             ":idcategory" => $this->getidcategory()
         ));
+    }
+
+    public static function updateFile()
+    {
+        $categories = Category::listAll();
+
+        $html = [];
+        foreach ($categories as $row){
+           array_push($html, '<li><a href="/category/') 
+        }
     }
 
 }
