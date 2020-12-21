@@ -4,9 +4,9 @@ namespace Ecommerce\DB;
 
 class Sql
 {
-    const HOSTNAME = "localhost";
+    const HOSTNAME = "mysql-app";
     const USERNAME = "root";
-    const PASSWORD = "";
+    const PASSWORD = "123456";
     const DBNAME = "db_ecommerce";
 
     private $conn;
