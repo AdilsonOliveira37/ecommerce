@@ -4,7 +4,7 @@ namespace Ecommerce\DB;
 
 class Sql
 {
-    const HOSTNAME = "mysql-app";
+    const HOSTNAME = "localhost:3306";
     const USERNAME = "root";
     const PASSWORD = "123456";
     const DBNAME = "db_ecommerce";
@@ -38,7 +38,7 @@ class Sql
         $this->setParams($stmt, $params);
         $stmt->execute();
     }
-    
+
     public function select($rawQuery, $params = array()): array
     {
         $stmt = $this->conn->prepare($rawQuery);
@@ -47,4 +47,3 @@ class Sql
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }
-?>  
