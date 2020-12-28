@@ -3,6 +3,8 @@ services:
   php:
     build:
       context: .
+      args:
+        uid: 1000
     image: phpdocker
     container_name: php
     ports:
