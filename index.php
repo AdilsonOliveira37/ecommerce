@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "vendor/autoload.php";
+require_once "functions.php";
 
 use \Ecommerce\Page;
 use \Ecommerce\PageAdmin;
@@ -13,11 +14,14 @@ $app = new Slim();
 
 $app->config('debug', true);
 
-$app->get('/', function () {
+$app->get("/", function()
+{
+	$products = Product::listAll();
 
-    $page = new Page();
-    $page->setTpl("index");
-
+	$page = new Page();
+	$page->setTpl("index", [
+		"products"=>Product::checkList($products)
+	]);
 });
 
 $app->get('/admin', function () {
