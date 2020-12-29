@@ -297,8 +297,20 @@ $app->post("/admin/products/:idproduct", function($idproduct){
 	$product = new Product();
 	$product->get((int)$idproduct);
 	$product->setData($_POST);
+	$product->checkPhoto();
 	$product->save();
 	$product->setPhoto($_FILES["file"]);
+
+	header("Location: /admin/products");
+	exit;
+});
+
+$app->get("/admin/products/:idproduct/delete", function($idproduct){
+	User::verifyLogin();
+
+	$product = new Product();
+	$product->get((int)$idproduct);
+	$product->delete();
 
 	header("Location: /admin/products");
 	exit;

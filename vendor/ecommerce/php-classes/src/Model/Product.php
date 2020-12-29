@@ -99,7 +99,6 @@ class Product extends Model
                 $image = imagecreatefromgif($file["tmp_name"]);
             break;
             case "png":
-                var_dump($file["tmp_name"]);
                 $image = imagecreatefrompng($file["tmp_name"]);
             break;
         }
